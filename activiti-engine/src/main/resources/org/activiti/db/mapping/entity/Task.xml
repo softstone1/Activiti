@@ -23,7 +23,7 @@
   
   <insert id="insertTask" parameterType="org.activiti.engine.impl.persistence.entity.TaskEntityImpl">
     insert into ${prefix}ACT_RU_TASK (ID_, REV_, NAME_, PARENT_TASK_ID_, DESCRIPTION_, PRIORITY_, CREATE_TIME_, OWNER_,
-                      ASSIGNEE_, DELEGATION_, EXECUTION_ID_, PROC_INST_ID_, PROC_DEF_ID_, TASK_DEF_KEY_, DUE_DATE_, CATEGORY_, SUSPENSION_STATE_, TENANT_ID_, FORM_KEY_, CLAIM_TIME_)
+                      ASSIGNEE_, DELEGATION_, EXECUTION_ID_, PROC_INST_ID_, PROC_DEF_ID_, TASK_DEF_KEY_, DUE_DATE_, CATEGORY_, SUSPENSION_STATE_, TENANT_ID_, FORM_KEY_, CLAIM_TIME_, APP_VERSION_)
     values (#{id, jdbcType=VARCHAR},
             1,
             #{name, jdbcType=VARCHAR},
@@ -43,13 +43,14 @@
             #{suspensionState, jdbcType=INTEGER},
             #{tenantId, jdbcType=VARCHAR},
             #{formKey, jdbcType=VARCHAR},
-            #{claimTime, jdbcType=TIMESTAMP}
+            #{claimTime, jdbcType=TIMESTAMP},
+            #{appVersion, jdbcType=INTEGER}
            )
   </insert>
 
   <insert id="bulkInsertTask" parameterType="java.util.List">
     INSERT INTO ${prefix}ACT_RU_TASK (ID_, REV_, NAME_, PARENT_TASK_ID_, DESCRIPTION_, PRIORITY_, CREATE_TIME_, OWNER_,
-                      ASSIGNEE_, DELEGATION_, EXECUTION_ID_, PROC_INST_ID_, PROC_DEF_ID_, TASK_DEF_KEY_, DUE_DATE_, CATEGORY_, SUSPENSION_STATE_, TENANT_ID_, FORM_KEY_, CLAIM_TIME_)
+                      ASSIGNEE_, DELEGATION_, EXECUTION_ID_, PROC_INST_ID_, PROC_DEF_ID_, TASK_DEF_KEY_, DUE_DATE_, CATEGORY_, SUSPENSION_STATE_, TENANT_ID_, FORM_KEY_, CLAIM_TIME_, APP_VERSION_)
     VALUES 
       <foreach collection="list" item="task" index="index" separator=","> 
         (#{task.id, jdbcType=VARCHAR},
@@ -71,7 +72,8 @@
          #{task.suspensionState, jdbcType=INTEGER},
          #{task.tenantId, jdbcType=VARCHAR},
          #{task.formKey, jdbcType=VARCHAR},
-         #{task.claimTime, jdbcType=TIMESTAMP})
+         #{task.claimTime, jdbcType=TIMESTAMP},
+         #{appVersion, jdbcType=INTEGER})
     </foreach>
   </insert>
 
@@ -80,7 +82,7 @@
       <foreach collection="list" item="task" index="index">
         INTO ${prefix}ACT_RU_TASK (ID_, REV_, NAME_, PARENT_TASK_ID_, DESCRIPTION_, PRIORITY_, CREATE_TIME_, OWNER_,
              ASSIGNEE_, DELEGATION_, EXECUTION_ID_, PROC_INST_ID_, PROC_DEF_ID_, TASK_DEF_KEY_, DUE_DATE_, CATEGORY_,
-             SUSPENSION_STATE_, TENANT_ID_, FORM_KEY_, CLAIM_TIME_) VALUES
+             SUSPENSION_STATE_, TENANT_ID_, FORM_KEY_, CLAIM_TIME_, APP_VERSION_) VALUES
         (#{task.id, jdbcType=VARCHAR},
          1,
          #{task.name, jdbcType=VARCHAR},
@@ -100,7 +102,8 @@
          #{task.suspensionState, jdbcType=INTEGER},
          #{task.tenantId, jdbcType=VARCHAR},
          #{task.formKey, jdbcType=VARCHAR},
-         #{task.claimTime, jdbcType=TIMESTAMP})
+         #{task.claimTime, jdbcType=TIMESTAMP},
+         #{appVersion, jdbcType=INTEGER})
     </foreach>
     SELECT * FROM dual
   </insert>
@@ -199,6 +202,7 @@
     <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR" />
     <result property="formKey" column="FORM_KEY_" jdbcType="VARCHAR" />
     <result property="claimTime" column="CLAIM_TIME_" jdbcType="TIMESTAMP" />
+    <result property="appVersion" column="APP_VERSION_" jdbcType="INTEGER" />
   </resultMap>
   
   <resultMap id="taskAndVariablesResultMap" type="org.activiti.engine.impl.persistence.entity.TaskEntityImpl">
@@ -222,6 +226,7 @@
     <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR" />
     <result property="formKey" column="FORM_KEY_" jdbcType="VARCHAR" />
     <result property="claimTime" column="CLAIM_TIME_" jdbcType="TIMESTAMP" />
+    <result property="appVersion" column="APP_VERSION_" jdbcType="INTEGER" />
     <collection property="queryVariables" column="TASK_ID_" javaType="ArrayList" ofType="org.activiti.engine.impl.persistence.entity.VariableInstanceEntityImpl">
       <id property="id" column="VAR_ID_"/>
       <result property="name" column="VAR_NAME_" javaType="String" jdbcType="VARCHAR" />
