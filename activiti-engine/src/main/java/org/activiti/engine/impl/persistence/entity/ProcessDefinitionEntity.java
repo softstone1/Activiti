@@ -62,9 +62,5 @@ public interface ProcessDefinitionEntity extends ProcessDefinition, Entity, HasR
   String getEngineVersion();
 
   void setEngineVersion(String engineVersion);
-
-  void setAppVersion(Integer appVersion);
-
-  Integer getAppVersion();
   
 }
