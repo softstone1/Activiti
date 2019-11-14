@@ -37,8 +37,13 @@ public class NewTaskCmd implements Command<Task>, Serializable {
     TaskEntity task = commandContext.getTaskEntityManager().create();
     task.setId(taskId);
     task.setRevision(0);
+
     DeploymentEntity deploymentEntity = commandContext.getDeploymentEntityManager().findLatestDeploymentByName("SpringAutoDeployment");
-    task.setAppVersion(deploymentEntity.getVersion());
+
+    if(deploymentEntity.getVersion() != null) {
+        task.setAppVersion(deploymentEntity.getVersion());
+    }
+
     return task;
   }
 
