@@ -37,6 +37,7 @@ public class APIProcessInstanceConverter extends ListConverter<org.activiti.engi
         processInstance.setBusinessKey(internalProcessInstance.getBusinessKey());
         processInstance.setStatus(calculateStatus(internalProcessInstance));
         processInstance.setProcessDefinitionVersion(internalProcessInstance.getProcessDefinitionVersion());
+        processInstance.setAppVersion(internalProcessInstance.getAppVersion().toString());
         return processInstance;
     }
 

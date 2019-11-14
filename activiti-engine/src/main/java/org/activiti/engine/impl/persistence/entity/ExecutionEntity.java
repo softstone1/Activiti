@@ -127,8 +127,4 @@ public interface ExecutionEntity extends DelegateExecution, Execution, ProcessIn
 
   void setStartTime(Date startTime);
 
-    void setAppVersion(Integer appVersion);
-
-    Integer getAppVersion();
-
 }
